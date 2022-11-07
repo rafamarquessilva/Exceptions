@@ -5,11 +5,13 @@ Menu();
 
 static void Menu()
 {
+    Console.Clear();
     Console.WriteLine("--------------------------");
     Console.WriteLine("---------MENU-------------");
     Console.WriteLine("--------------------------");
     Console.WriteLine("1 - Exceção Genérica");
     Console.WriteLine("2 - Exceção DivideByZeroException");
+    Console.WriteLine("3 - Exceção ArgumentException");
     Console.WriteLine("0 - Sair");
     Console.WriteLine(" ");
 
@@ -24,8 +26,12 @@ static void Menu()
         case "2":
             ExcecaoDivideByZeroException(10, 0);
             break;
+        case "3":
+            ExcecaoArgumentException(10, 0);
+            break;
         default:
             Console.WriteLine("Opção inválida.");
+            RecarregarMenu();
             break;
     }
 
@@ -41,8 +47,8 @@ static void ExcecaoGenerica(int num, int divisor)
     catch (Exception ex)
     {
         Console.WriteLine("Erro ExcecaoGenerica: " + ex.Message);
+        RecarregarMenu();
     }
-
 }
 
 static void ExcecaoDivideByZeroException(int num, int divisor)
@@ -51,12 +57,39 @@ static void ExcecaoDivideByZeroException(int num, int divisor)
     {
         var resultado = num / divisor;
     }
-    catch (DivideByZeroException e )
+    catch (DivideByZeroException e)
     {
         Console.WriteLine("Erro ExcecaoDivideByZeroException: " + e.Message);
+        RecarregarMenu();
     }
     catch (Exception ex)
     {
-        Console.WriteLine("Erro ExcecaoDivideByZeroException: " + ex.Message);
+        Console.WriteLine("Erro Génerica: " + ex.Message);
+        RecarregarMenu();
     }
+}
+
+static void ExcecaoArgumentException(int num, int divisor)
+{
+    try
+    {
+        if (divisor <= 0)
+        {
+            throw new ArgumentException("O argumento divisor deve ser maior que 0.", nameof(divisor));
+        }
+    }
+    catch (ArgumentException ex)
+    {
+        Console.WriteLine("Erro do tipo ArgumentException");
+        Console.WriteLine("Parâmetro: " + ex.ParamName);
+        RecarregarMenu();
+    }
+    var resultado = num / divisor;
+    Console.WriteLine($"Resultado é {resultado}");
+}
+
+static void RecarregarMenu()
+{
+    Console.ReadKey();
+    Menu();
 }
