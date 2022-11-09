@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Exceptions.Exceptions;
+using System;
 using System.Linq.Expressions;
 
 Menu();
@@ -12,6 +13,7 @@ static void Menu()
     Console.WriteLine("1 - Exceção Genérica");
     Console.WriteLine("2 - Exceção DivideByZeroException");
     Console.WriteLine("3 - Exceção ArgumentException");
+    Console.WriteLine("4 - Exceção Personalizada");
     Console.WriteLine("0 - Sair");
     Console.WriteLine(" ");
 
@@ -28,6 +30,9 @@ static void Menu()
             break;
         case "3":
             ExcecaoArgumentException(10, 0);
+            break;
+        case "4":
+            ExcecaoPersonalizada(200);
             break;
         default:
             Console.WriteLine("Opção inválida.");
@@ -86,6 +91,24 @@ static void ExcecaoArgumentException(int num, int divisor)
     }
     var resultado = num / divisor;
     Console.WriteLine($"Resultado é {resultado}");
+}
+
+static void ExcecaoPersonalizada(double valor)
+{
+    try
+    {
+        var _saldo = 100;
+
+        if (_saldo < valor)
+        {
+            throw new SaldoInsuficienteException("Saldo insuficiente no valor de " + valor);
+        }
+    }
+    catch (SaldoInsuficienteException ex)
+    {
+        Console.WriteLine("Erro na exceção SaldoInsuficienteException: " + ex.Message);
+        RecarregarMenu();
+    }
 }
 
 static void RecarregarMenu()
